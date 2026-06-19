@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import { Cookie, Refrigerator, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { SignedIn, SignedOut, SignInButton, SignUpButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import HowToCookModal from "./HowToCookModal";
 import PricingModal from "./PricingModal";
 import Image from "next/image";
@@ -22,25 +22,28 @@ export default async function Header() {
           className="flex items-center gap-2 group"
         >
           <Image
-            src="/orange-logo.png"
-            alt="Servd Logo"
-            width={60}
-            height={60}
-            className="w-16"
+            src="/whiskora-wordmark.svg"
+            alt="Whiskora Logo"
+            width={180}
+            height={50}
+            className="h-9 w-auto"
+            priority
           />
         </Link>
 
         {/* Navigation Links */}
         <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-stone-600">
           <Link
-            href="/recipes"
+            href={user ? "/recipes" : "/sign-in"}
+            prefetch={false}
             className="hover:text-orange-600 transition-colors flex gap-1.5 items-center"
           >
             <Cookie className="w-4 h-4" />
             My Recipes
           </Link>
           <Link
-            href="/pantry"
+            href={user ? "/pantry" : "/sign-in"}
+            prefetch={false}
             className="hover:text-orange-600 transition-colors flex gap-1.5 items-center"
           >
             <Refrigerator className="w-4 h-4" />
@@ -82,19 +85,19 @@ export default async function Header() {
           </SignedIn>
 
           <SignedOut>
-            <SignInButton mode="modal">
+            <Link href="/sign-in" prefetch={false}>
               <Button
                 variant="ghost"
                 className="text-stone-600 hover:text-orange-600 hover:bg-orange-50 font-medium"
               >
                 Sign In
               </Button>
-            </SignInButton>
-            <SignUpButton mode="modal">
+            </Link>
+            <Link href="/sign-up" prefetch={false}>
               <Button variant="primary" className="rounded-full px-6">
                 Get Started
               </Button>
-            </SignUpButton>
+            </Link>
           </SignedOut>
         </div>
       </nav>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Check } from "lucide-react";
-import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { CheckoutButton } from "@clerk/nextjs/experimental";
 import { Button } from "@/components/ui/button";
 import {
@@ -55,14 +55,26 @@ export default function PricingSection({ subscriptionTier = "free" }) {
           </CardContent>
 
           <CardFooter className={"mt-auto"}>
-            <Link href="/dashboard" className="w-full">
-              <Button
-                variant="outline"
-                className="w-full border-2 border-stone-900 hover:bg-stone-900 hover:text-white"
-              >
-                Get Started
-              </Button>
-            </Link>
+            <SignedIn>
+              <Link href="/dashboard" className="w-full">
+                <Button
+                  variant="outline"
+                  className="w-full border-2 border-stone-900 hover:bg-stone-900 hover:text-white"
+                >
+                  Get Started
+                </Button>
+              </Link>
+            </SignedIn>
+            <SignedOut>
+              <Link href="/sign-in" className="w-full" prefetch={false}>
+                <Button
+                  variant="outline"
+                  className="w-full border-2 border-stone-900 hover:bg-stone-900 hover:text-white"
+                >
+                  Get Started
+                </Button>
+              </Link>
+            </SignedOut>
           </CardFooter>
         </Card>
 
@@ -130,11 +142,11 @@ export default function PricingSection({ subscriptionTier = "free" }) {
               </CheckoutButton>
             </SignedIn>
             <SignedOut>
-              <SignInButton mode="modal">
+              <Link href="/sign-in" className="w-full" prefetch={false}>
                 <Button variant="primary" className="w-full">
                   Login to Subscribe
                 </Button>
-              </SignInButton>
+              </Link>
             </SignedOut>
           </CardFooter>
         </Card>

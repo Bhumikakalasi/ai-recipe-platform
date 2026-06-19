@@ -1,7 +1,6 @@
 import React from "react";
 import { ArrowRight, Star, Flame, Clock, Users } from "lucide-react";
 import Image from "next/image";
-import { SignUpButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -11,8 +10,9 @@ import PricingSection from "@/components/PricingSection";
 import Link from "next/link";
 
 export default async function LandingPage() {
-  const { has } = await auth();
+  const { has, userId } = await auth();
   const subscriptionTier = has({ plan: "pro" }) ? "pro" : "free";
+  const startCookingHref = userId ? "/dashboard" : "/sign-in";
 
   return (
     <div className="min-h-screen bg-stone-50 text-stone-900">
@@ -44,7 +44,7 @@ export default async function LandingPage() {
                 Save money, reduce waste, and eat better tonight.
               </p>
 
-              <Link href="/dashboard">
+              <Link href={startCookingHref} prefetch={false}>
                 <Button
                   size="xl"
                   variant="primary"
